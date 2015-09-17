@@ -32,12 +32,23 @@ public class TickDBService {
 		TimeSeries timeSeries = tickDataDao.getTickData(exchange, symbol, date.withMillisOfDay(0), date);
 
 		try {
-			tickDataBinaryDao.insertTimeSeries(timeSeries);
+			if (timeSeries!=null){
+				tickDataBinaryDao.insertTimeSeries(timeSeries);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Get times series data between 2 dates. If its historic it will be from the binary store 
+	 * and if its current it will be in the tick data store.
+	 * @param exchange
+	 * @param symbol
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 */
 	public TimeSeries getTimeSeries(String exchange, String symbol, DateTime fromDate, DateTime toDate) {
 		List<DateTime> dates = DateUtils.getDatesBetween(fromDate, toDate);
 		
@@ -81,14 +92,12 @@ public class TickDBService {
 
 	public CandleStickSeries getCandleStickSeries(String exchange, String symbol, DateTime fromDate, DateTime toDate, Periodicity periodicity) {
 		
-		TimeSeries timeSeries = tickDataDao.getTickData(exchange, symbol, fromDate, toDate);
+		TimeSeries timeSeries = getTimeSeries(exchange, symbol, fromDate, toDate);
 		timeSeries.reverse();
 		
 		return CandleStickProcessor.createCandleStickSeries(timeSeries, periodicity, fromDate);		
 	}
 
-
-	
 	private String generateKey(String exchange, String symbol, DateTime startTime) {
 		return exchange.toUpperCase() + "-" + symbol.toUpperCase() + "-" + startTime.getYear() + "-" 
 					+ fillNumber(startTime.getMonthOfYear()) + "-" + fillNumber(startTime.getDayOfMonth()); 
@@ -104,11 +113,23 @@ public class TickDBService {
 		DateTime time = new DateTime();		
 		
 		Timer t = new Timer();
-		TimeSeries result = service.getTimeSeries("NASDAQ", "AAPL", time.minusDays(10), time);
+		TimeSeries result = service.getTimeSeries("NASDAQ", "AAPL", time.minusDays(5), time);
 		logger.info(new DateTime(result.lowestDate()).toString());
 		logger.info(new DateTime(result.highestDate()).toString());		
-		t.end();
+		t.end();		
 		logger.info("Load took " + t.getTimeTakenMillis() + "ms for " + result.getDates().length + " ticks.");
+				
+//		Timer t1 = new Timer();		
+//		service.convertTickDataToTimeSeries("NASDAQ", "AAPL", DateTime.now());
+//		t1.end();
+//		logger.info("Convert took " + t1.getTimeTakenMillis() + "ms");
+		
+		Timer t2 = new Timer();
+		CandleStickSeries candles = service.getCandleStickSeries("NASDAQ", "AAPL", time.minusDays(5), time, Periodicity.HOUR);
+		t2.end();		
+		logger.info("Load of Candles took " + t.getTimeTakenMillis() + "ms for " + candles.getCandleSticks().size() + " ticks.");
+		
+		logger.info(candles.getCandleSticks().toString());
 
 		System.exit(0);
 	}

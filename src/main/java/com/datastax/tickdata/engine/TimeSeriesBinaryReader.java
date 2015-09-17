@@ -33,6 +33,7 @@ public class TimeSeriesBinaryReader implements Future<TimeSeries> {
 	}
 	
 	TimeSeries getTimeSeries(){
+		this.timeSeries.reverse();
 		return this.timeSeries;
 	}
 
@@ -49,7 +50,6 @@ public class TimeSeriesBinaryReader implements Future<TimeSeries> {
 
 	@Override
 	public boolean isCancelled() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -64,7 +64,7 @@ public class TimeSeriesBinaryReader implements Future<TimeSeries> {
 			Thread.sleep(1);				
 		}
 
-		return timeSeries;
+		return getTimeSeries();
 	}
 
 	@Override
