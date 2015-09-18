@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.datastax.demo.utils.PropertyHelper;
 import com.datastax.demo.utils.Timer;
 import com.datastax.tickdata.TickDataBinaryDao;
 import com.datastax.tickdata.TickDataDao;
@@ -25,9 +26,19 @@ public class TickDBService {
 	
 	private static Logger logger = LoggerFactory.getLogger(TickDBService.class);
 	
-	private TickDataDao tickDataDao = new TickDataDao(new String[]{"127.0.0.1"});
-	private TickDataBinaryDao tickDataBinaryDao = new TickDataBinaryDao(new String[]{"127.0.0.1"});
+	private TickDataDao tickDataDao;
+	private TickDataBinaryDao tickDataBinaryDao;
+	private static TickDBService service = new TickDBService(); 
 
+	public static TickDBService getInstance(){
+		return service;
+	}
+	
+	private TickDBService(){
+		tickDataDao = new TickDataDao(PropertyHelper.getProperty("contactPoints", "localhost").split(","));
+		tickDataBinaryDao = new TickDataBinaryDao(PropertyHelper.getProperty("contactPoints", "localhost").split(","));
+	}
+	
 	public void convertTickDataToTimeSeries(String exchange, String symbol, DateTime date){
 		TimeSeries timeSeries = tickDataDao.getTickData(exchange, symbol, date.withMillisOfDay(0), date);
 

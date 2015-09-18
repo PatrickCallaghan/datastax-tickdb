@@ -11,7 +11,7 @@ public class DailyConversionService {
 	
 	public DailyConversionService() {
 		this.dataLoader = new DataLoader();
-		this.dbService = new TickDBService();
+		this.dbService = TickDBService.getInstance();
 	}
 
 	/**
@@ -27,6 +27,12 @@ public class DailyConversionService {
 			dbService.convertTickDataToTimeSeries(split[0], split[1], dateTime);			
 		}		
 	}
+
+	public void runTickDataToBinaryConversionForSymbol(String exchange, String symbol, DateTime dateTime){
+					
+		dbService.convertTickDataToTimeSeries(exchange, symbol, dateTime);					
+	}
+
 	
 	public static void main(String args[]){
 		DailyConversionService service = new DailyConversionService();
