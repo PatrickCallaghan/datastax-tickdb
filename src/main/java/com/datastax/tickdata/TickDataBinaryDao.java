@@ -27,7 +27,7 @@ public class TickDataBinaryDao {
 	private static Logger logger = LoggerFactory.getLogger(TickDataBinaryDao.class);
 
 	private Session session;
-	private static String keyspaceName = "datastax_tickdata_binary_demo";
+	private static String keyspaceName = "datastax_tickdb_binary";
 	private static String tableNameTick = keyspaceName + ".tick_data";
 
 	private static final String INSERT_INTO_TICK = "Insert into " + tableNameTick + " (symbol,dates,ticks) values (?, ?,?);";

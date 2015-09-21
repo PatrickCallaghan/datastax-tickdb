@@ -39,7 +39,7 @@ The data is generated from a tick generator which uses a csv file to create rand
 To increase the throughput, add nodes to the cluster. Cassandra will scale linearly with the amount of nodes in the cluster.
 
 ## Schema Setup
-Note : This will drop the keyspace "datastax_tickdata_demo" and create a new one. All existing data will be lost. 
+Note : This will drop the keyspace "datastax_tickdb" and create a new one. All existing data will be lost. 
 
 curl -X GET -H "Content-Type: application/json"  
 
