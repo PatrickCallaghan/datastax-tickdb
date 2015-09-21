@@ -12,13 +12,21 @@ This is a simple example of using C* as a tick data store for financial market d
 
         export MAVEN_OPTS=-Xmx512M
 
-* You will need the DataStax Timeseries library JAR in your local Maven repository. Run the Maven install on the [datastax-timeseries-lib][2] GitHub project.
+* You will need two DataStax libraries installed (ie, `mvn install`) to your local Maven repository. Both are available on GitHub.
+    * DataStax Timeseries Library: [datastax-timeseries-lib][2]
+    * DataStax Demo Library: [datastax-demo-lib][5]
 
 ### Prepare Cassandra
 
 * Start DSE 3.1.X or a Cassandra 1.2.X instance on your local machine. This demo just runs as a standalone process on the localhost. For more information on launching a development instance of C* on your local machine, please see the DataStax blog post on [Cassandra Cluster Manager][1].
 
 * Create the schema using `create_schema.cql`. If you have created your C* instance using CCM, your steps may resemble this [terminal excerpt][3].
+
+### Launch the Demo
+
+* From the datastax-tickdb directory, run `mvn jetty:run`.
+
+* See the [Jetty Maven Quick Start][4] page for more information on the Jetty Maven plugin.
 
 ## Queries
 
@@ -80,3 +88,5 @@ http://localhost:8080/datastax-tickdb/rest/tickdb/get/rundailyconversionbysymbol
 [1]: http://www.datastax.com/dev/blog/ccm-a-development-tool-for-creating-local-cassandra-clusters
 [2]: https://github.com/PatrickCallaghan/datastax-timeseries-lib
 [3]: docs/create_schema.md
+[4]: http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html#get-up-and-running
+[5]: https://github.com/DC4DS/datastax-demo-lib
