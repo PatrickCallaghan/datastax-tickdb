@@ -1,6 +1,6 @@
 # DataStax Tick Data
 
-This is a simple example of using C* as a tick data store for financial market data.
+This is a simple example of REST services that query a Cassandra cluster for financial market data.
 
 ## Running the Demo
 
