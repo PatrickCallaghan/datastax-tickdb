@@ -86,7 +86,7 @@ http://localhost:8080/datastax-tickdb/rest/tickdb/get/rundailyconversionbysymbol
 
 [1]: http://www.datastax.com/dev/blog/ccm-a-development-tool-for-creating-local-cassandra-clusters
 [2]: https://github.com/PatrickCallaghan/datastax-timeseries-lib
-[3]: 
+[3]: XXX
 [4]: http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html#get-up-and-running
 [5]: https://github.com/DC4DS/datastax-demo-lib
 [6]: https://github.com/PatrickCallaghan/datastax-tickdata-comparison
