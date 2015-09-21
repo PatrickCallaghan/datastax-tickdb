@@ -4,15 +4,21 @@ This is a simple example of using C* as a tick data store for financial market d
 
 ## Running the Demo
 
-* You will need a Java runtime (preferably 7) along with Maven 3 to run this demo.
+### Prepare the Environment
 
-* Start DSE 3.1.X or a Cassandra 1.2.X instance on your local machine. This demo just runs as a standalone process on the localhost. For more information on launching a development instance of Cassandra on your local machine, please see the DataStax blog post on [Cassandra Cluster Manager](http://www.datastax.com/dev/blog/ccm-a-development-tool-for-creating-local-cassandra-clusters).
+* You will need a Java runtime (preferably 7) along with Maven 3 to run this demo.
 
 * This demo uses quite a lot of memory, so it is worth setting `MAVEN_OPTS` to run Maven with more memory:
 
         export MAVEN_OPTS=-Xmx512M
 
-* You will need the DataStax Timeseries library JAR in your local Maven repository. Run the Maven install on the [datastax-timeseries-lib](https://github.com/PatrickCallaghan/datastax-timeseries-lib) GitHub project.
+* You will need the DataStax Timeseries library JAR in your local Maven repository. Run the Maven install on the [datastax-timeseries-lib][2] GitHub project.
+
+### Prepare Cassandra
+
+* Start DSE 3.1.X or a Cassandra 1.2.X instance on your local machine. This demo just runs as a standalone process on the localhost. For more information on launching a development instance of C* on your local machine, please see the DataStax blog post on [Cassandra Cluster Manager][1].
+
+* Create the schema using `create_schema.cql`. If you have created your C* instance using CCM, your steps may resemble this [terminal excerpt][3].
 
 ## Queries
 
@@ -71,7 +77,6 @@ http://localhost:8080/datastax-tickdb/rest/tickdb/get/rundailyconversionbysymbol
 //For a specific symbol and date, run daily conversion of tick data to binary data for long term storage and retrieval
 http://localhost:8080/datastax-tickdb/rest/tickdb/get/rundailyconversionbysymbolanddate/NASDAQ/AAPL/20150917000000
 
-
-
-
-
+[1]: http://www.datastax.com/dev/blog/ccm-a-development-tool-for-creating-local-cassandra-clusters
+[2]: https://github.com/PatrickCallaghan/datastax-timeseries-lib
+[3]: docs/create_schema.md
