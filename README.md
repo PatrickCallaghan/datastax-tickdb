@@ -1,15 +1,18 @@
-Tick Data example
-========================================================
+# DataStax Tick Data
 
 This is a simple example of using C* as a tick data store for financial market data.
 
-## Running the demo 
+## Running the Demo
 
-You will need a java runtime (preferably 7) along with maven 3 to run this demo. Start DSE 3.1.X or a cassandra 1.2.X instance on your local machine. This demo just runs as a standalone process on the localhost.
+* You will need a Java runtime (preferably 7) along with Maven 3 to run this demo.
 
-This demo uses quite a lot of memory so it is worth setting the MAVEN_OPTS to run maven with more memory
+* Start DSE 3.1.X or a Cassandra 1.2.X instance on your local machine. This demo just runs as a standalone process on the localhost. For more information on launching a development instance of Cassandra on your local machine, please see the DataStax blog post on [Cassandra Cluster Manager](http://www.datastax.com/dev/blog/ccm-a-development-tool-for-creating-local-cassandra-clusters).
 
-    export MAVEN_OPTS=-Xmx512M
+* This demo uses quite a lot of memory, so it is worth setting `MAVEN_OPTS` to run Maven with more memory:
+
+        export MAVEN_OPTS=-Xmx512M
+
+* You will need the DataStax Timeseries library JAR in your local Maven repository. Run the Maven install on the [datastax-timeseries-lib](https://github.com/PatrickCallaghan/datastax-timeseries-lib) GitHub project.
 
 ## Queries
 
