@@ -30,7 +30,7 @@ public class TickDataDao {
 	private static Logger logger = LoggerFactory.getLogger(TickDataDao.class);
 	private AtomicLong TOTAL_POINTS = new AtomicLong(0);
 	private Session session;
-	private static String keyspaceName = "datastax_tickdata_demo";
+	private static String keyspaceName = "datastax_tickdb";
 	private static String tableNameTick = keyspaceName + ".tick_data";
 
 	private static final String INSERT_INTO_TICK = "Insert into " + tableNameTick + " (symbol,date,value) values (?,?,?);";
