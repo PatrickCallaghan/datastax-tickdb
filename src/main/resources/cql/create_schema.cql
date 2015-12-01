@@ -1,4 +1,4 @@
-create keyspace if not exists datastax_tickdb WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' };
+create keyspace if not exists datastax_tickdb WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '2', 'DC2':2 };
 
 use datastax_tickdb; 
 

@@ -13,8 +13,8 @@ import com.datastax.demo.utils.PropertyHelper;
 import com.datastax.demo.utils.Timer;
 import com.datastax.tickdata.TickDataBinaryDao;
 import com.datastax.tickdata.TickDataDao;
-import com.datastax.tickdata.engine.TimeSeriesBinaryReader;
-import com.datastax.tickdata.engine.TimeSeriesReader;
+import com.datastax.tickdata.TimeSeriesBinaryReader;
+import com.datastax.tickdata.TimeSeriesReader;
 import com.datastax.timeseries.model.CandleStickSeries;
 import com.datastax.timeseries.model.Periodicity;
 import com.datastax.timeseries.model.TimeSeries;
@@ -40,7 +40,7 @@ public class TickDBService {
 	}
 	
 	public void convertTickDataToTimeSeries(String exchange, String symbol, DateTime date){
-		TimeSeries timeSeries = tickDataDao.getTickData(exchange, symbol, date.withMillisOfDay(0), date);
+		TimeSeries timeSeries = tickDataDao.getTickData(exchange + "-" + symbol, date.withMillisOfDay(0).getMillis(), date.getMillis());
 
 		try {
 			if (timeSeries!=null){
@@ -60,16 +60,19 @@ public class TickDBService {
 	 * @param toDate
 	 * @return
 	 */
-	public TimeSeries getTimeSeries(String exchange, String symbol, DateTime fromDate, DateTime toDate) {
+	public TimeSeries getTimeSeries(String exchange, String symbol, DateTime fromDate, DateTime toDate) {		
 		List<DateTime> dates = DateUtils.getDatesBetween(fromDate, toDate);
 		
+		Timer t = new Timer();
 		List<TimeSeries> timeSeriesDays = getTimeSeriesForDates(exchange, symbol, dates, toDate);
 		
 		TimeSeries finalTimeSeries = null;
-		
+				
 		for (TimeSeries timeSeries : timeSeriesDays){
 			finalTimeSeries =  TimeSeriesUtils.mergeTimeSeries(finalTimeSeries, timeSeries);					
 		}
+		t.end();
+		logger.info("Get " + symbol + " took " + t.getTimeTakenMillis() + "ms " + finalTimeSeries.getDates().length + " ticks.");
 		return finalTimeSeries;
 	}
 
@@ -130,11 +133,6 @@ public class TickDBService {
 		t.end();		
 		logger.info("Load took " + t.getTimeTakenMillis() + "ms for " + result.getDates().length + " ticks.");
 				
-//		Timer t1 = new Timer();		
-//		service.convertTickDataToTimeSeries("NASDAQ", "AAPL", DateTime.now());
-//		t1.end();
-//		logger.info("Convert took " + t1.getTimeTakenMillis() + "ms");
-		
 		Timer t2 = new Timer();
 		CandleStickSeries candles = service.getCandleStickSeries("NASDAQ", "AAPL", time.minusDays(5), time, Periodicity.HOUR);
 		t2.end();		

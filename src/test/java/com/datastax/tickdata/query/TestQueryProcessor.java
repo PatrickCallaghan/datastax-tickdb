@@ -45,8 +45,8 @@ public class TestQueryProcessor {
 	public void testMovingAverage() {
 		TickDataDao dao = new TickDataDao(new String[] { "localhost" });
 
-		TimeSeries tickData = dao.getTickData("NASDAQ-AAPL-2014-03-28", parser.parseDateTime("2014-03-28 10:15:02"),
-				parser.parseDateTime("2014-03-28 10:19:02"));
+		TimeSeries tickData = dao.getTickData("NASDAQ-AAPL-2014-03-28", parser.parseDateTime("2014-03-28 10:15:02").getMillis(),
+				parser.parseDateTime("2014-03-28 10:19:02").getMillis());
 
 		// Need to reverse for Technical analysis
 		tickData.reverse();
